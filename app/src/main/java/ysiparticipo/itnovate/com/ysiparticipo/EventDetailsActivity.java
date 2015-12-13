@@ -68,7 +68,7 @@ public class EventDetailsActivity extends AppCompatActivity {
         });
         setSupportActionBar(toolbar);
         ImageView imageView = (ImageView) findViewById(R.id.imageView);
-        imageView.setImageDrawable(R.drawable.eventos);
+        imageView.setImageResource(R.drawable.eventos);
         addToQueue(req);
     }
 
