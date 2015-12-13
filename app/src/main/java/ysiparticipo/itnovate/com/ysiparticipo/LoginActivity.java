@@ -83,7 +83,7 @@ public class LoginActivity extends AppCompatActivity
     Backendless.UserService.loginWithFacebook(this, webView, facebookFieldMappings, permissions, new AsyncCallback<BackendlessUser>() {
       @Override
       public void handleResponse(BackendlessUser backendlessUser) {
-        startActivity(new Intent(LoginActivity.this, MainActivity.class));
+        startActivity(new Intent(LoginActivity.this, WelcomeActivity.class));
         finish();
       }
 
@@ -99,7 +99,7 @@ public class LoginActivity extends AppCompatActivity
     Backendless.UserService.loginWithTwitter(LoginActivity.this, new SocialCallback<BackendlessUser>(LoginActivity.this) {
       @Override
       public void handleResponse(BackendlessUser backendlessUser) {
-        startActivity(new Intent(getBaseContext(), MainActivity.class));
+        startActivity(new Intent(getBaseContext(), WelcomeActivity.class));
         finish();
       }
     });

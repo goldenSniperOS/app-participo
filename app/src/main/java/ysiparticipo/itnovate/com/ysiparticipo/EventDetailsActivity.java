@@ -27,6 +27,7 @@ import ysiparticipo.itnovate.com.ysiparticipo.Adapters.EventAdapter;
 public class EventDetailsActivity extends AppCompatActivity {
     private VolleyS volley;
     protected RequestQueue fRequestQueue;
+    Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +37,9 @@ public class EventDetailsActivity extends AppCompatActivity {
         fRequestQueue = volley.getRequestQueue();
         int item = intent.getIntExtra("item",1);
         setContentView(R.layout.activity_event_details);
-        final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
