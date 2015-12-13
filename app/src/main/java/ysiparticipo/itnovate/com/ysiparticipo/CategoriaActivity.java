@@ -3,6 +3,8 @@ package ysiparticipo.itnovate.com.ysiparticipo;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -43,34 +45,42 @@ public class CategoriaActivity extends AppCompatActivity {
         listView = (ListView) findViewById(R.id.listView);
         String urlpost = "http://172.16.107.194/api-participo/home/eventos/"+ categoria +"/"+ pageCurrent;
         JsonObjectRequest req = new JsonObjectRequest(urlpost,
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        try {
-                            total = response.getInt("total");
-                            pageTotal = response.getInt("pages");
-                            JSONArray jsonArray = response.getJSONArray("data");
-                            for(int i = 0; i< jsonArray.length();i++){
-                                JSONObject obj = jsonArray.getJSONObject(i);
-                                Event event = new Event();
-                                event.setID(obj.getInt("ID"));
-                                event.setFECHA(obj.getString("FECHA"));
-                                event.setLUGAR(obj.getString("LUGAR"));
-                                event.setHORA(obj.getString("HORA"));
-                                event.setEVENTO(obj.getString("EVENTO"));
-                                listaEventos.add(event);
-                            }
-                            EventAdapter eventAdapter = new EventAdapter(CategoriaActivity.this,R.layout.event_item,listaEventos);
-                            listView.setAdapter(eventAdapter);
-                        } catch (JSONException e) {
-                            e.printStackTrace();
+            new Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject response) {
+                    try {
+                        total = response.getInt("total");
+                        pageTotal = response.getInt("pages");
+                        JSONArray jsonArray = response.getJSONArray("data");
+                        for(int i = 0; i< jsonArray.length();i++){
+                            JSONObject obj = jsonArray.getJSONObject(i);
+                            Event event = new Event();
+                            event.setID(obj.getInt("ID"));
+                            event.setFECHA(obj.getString("FECHA"));
+                            event.setLUGAR(obj.getString("LUGAR"));
+                            event.setHORA(obj.getString("HORA"));
+                            event.setEVENTO(obj.getString("EVENTO"));
+                            listaEventos.add(event);
                         }
-
+                        EventAdapter eventAdapter = new EventAdapter(CategoriaActivity.this,R.layout.event_item,listaEventos);
+                        listView.setAdapter(eventAdapter);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
                     }
-                }, new Response.ErrorListener() {
+
+                }
+            }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 VolleyLog.e("Error: ", error.getMessage());
+            }
+        });
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(CategoriaActivity.this,EventDetailsActivity.class);
+                intent.putExtra("item",listaEventos.get(position).getID());
+                startActivity(intent);
             }
         });
         addToQueue(req);
