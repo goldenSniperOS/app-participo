@@ -51,7 +51,7 @@ public class LoginActivity extends AppCompatActivity
               public void handleResponse(BackendlessUser currentUser) {
                 super.handleResponse(currentUser);
                 Backendless.UserService.setCurrentUser(currentUser);
-                startActivity(new Intent(getBaseContext(), MainActivity.class));
+                startActivity(new Intent(getBaseContext(), WelcomeActivity.class));
                 finish();
               }
             });
