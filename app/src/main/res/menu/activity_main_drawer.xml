@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item android:id="@+id/nav_camara" android:icon="@android:drawable/ic_menu_camera"
+            android:title="Pregunta de la semana" />
+        <item android:id="@+id/nav_gallery" android:icon="@android:drawable/ic_menu_gallery"
+            android:title="Centro de voto" />
+        <item android:id="@+id/nav_slideshow" android:icon="@android:drawable/ic_menu_slideshow"
+            android:title="Boca de urna" />
+    </group>
+
+    <item android:title="Estadistica">
+        <menu>
+            //educacion, inversion pub/priv , seguridad, lucha corrupcion, salud
+            <item android:id="@+id/nav_share" android:icon="@android:drawable/ic_menu_send"
+                android:title="Educacion" />
+            <item android:id="@+id/nav_send" android:icon="@android:drawable/ic_menu_send"
+                android:title="Inversion pub/priv" />
+            <item android:id="@+id/nav_send2" android:icon="@android:drawable/ic_menu_send"
+                android:title="Seguridad" />
+            <item android:id="@+id/nav_send3" android:icon="@android:drawable/ic_menu_send"
+                android:title="Corrupcion" />
+            <item android:id="@+id/nav_send4" android:icon="@android:drawable/ic_menu_send"
+                android:title="Salud" />
+        </menu>
+    </item>
+
+</menu>
