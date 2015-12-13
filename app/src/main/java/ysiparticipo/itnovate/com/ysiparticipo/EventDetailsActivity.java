@@ -15,10 +15,15 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.InputType;
+import android.text.Layout;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,6 +42,7 @@ import com.backendless.BackendlessUser;
 import com.backendless.async.callback.AsyncCallback;
 import com.backendless.exceptions.BackendlessFault;
 import com.backendless.files.BackendlessFile;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -60,12 +66,17 @@ public class EventDetailsActivity extends AppCompatActivity {
     private Integer item;
     Bitmap bitmap;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Intent intent = getIntent();
         volley = VolleyS.getInstance(this);
         fRequestQueue = volley.getRequestQueue();
+        current = Backendless.UserService.CurrentUser();
+        if(current == null){
+            finish();
+        }
         item = intent.getIntExtra("item",1);
         setContentView(R.layout.activity_event_details);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -84,14 +95,25 @@ public class EventDetailsActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(JSONObject response) {
                         try {
-                           toolbar.setTitle(response.getString("EVENTO"));
-                            TextView lugar = (TextView) findViewById(R.id.lugar);
+                           toolbar.setTitle(response.getString("CATEGORIA"));
+                            TextView EVENTO = (TextView) findViewById(R.id.textView);
+                            EVENTO.setText(response.getString("EVENTO"));
+                            TextView lugar = (TextView) findViewById(R.id.textView4);
                             lugar.setText(response.getString("LUGAR"));
-                            TextView hora = (TextView) findViewById(R.id.hora);
-                            hora.setText(response.getString("FECHA") + "-" + response.getString("HORA"));
+                            TextView hora = (TextView) findViewById(R.id.textView3);
+                            hora.setText(response.getString("FECHA") + " / " + response.getString("HORA"));
+                            ImageView map = (ImageView) findViewById(R.id.imageView2);
+                            Picasso.with(EventDetailsActivity.this)
+                                    .load("https://maps.googleapis.com/maps/api/staticmap?center=" + response.getDouble("Latitud") + "," + response.getDouble("Longitud") + "&zoom=17&size=600x200&maptype=roadmap\n" +
+                                            "&markers=color:red%7Clabel:C%7C" + response.getDouble("Latitud") + "," + response.getDouble("Longitud") +
+                                            "&key=AIzaSyDQ7U4smLTUnkZ3QMoclnGO58DyF23A2fQ")
+                                    .into(map);
+                            LinearLayout layout =(LinearLayout)findViewById(R.id.cabecera);
+                            layout.setBackgroundResource(R.drawable.eventos);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
+
                     }
                 }, new Response.ErrorListener() {
             @Override
@@ -100,11 +122,8 @@ public class EventDetailsActivity extends AppCompatActivity {
             }
         });
         setSupportActionBar(toolbar);
-        ImageView imageView = (ImageView) findViewById(R.id.imageView);
-        imageView.setImageResource(R.drawable.eventos);
         addToQueue(req);
     }
-
 
     public void takePhoto(View view) {
         Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
@@ -121,7 +140,6 @@ public class EventDetailsActivity extends AppCompatActivity {
         switch (requestCode) {
             case TAKE_PICTURE:
                 if (resultCode == Activity.RESULT_OK) {
-                    current = Backendless.UserService.CurrentUser();
                     Toast.makeText(getApplicationContext(),current.getEmail()+"",Toast.LENGTH_LONG).show();
                     Uri selectedImage = imageUri;
                     getContentResolver().notifyChange(selectedImage, null);
@@ -175,8 +193,6 @@ public class EventDetailsActivity extends AppCompatActivity {
                                                 }
                                             });
                                             setSupportActionBar(toolbar);
-                                            ImageView imageView = (ImageView) findViewById(R.id.imageView);
-                                            imageView.setImageResource(R.drawable.eventos);
                                             addToQueue(req);
                                         }
 
@@ -226,6 +242,50 @@ public class EventDetailsActivity extends AppCompatActivity {
         this.setProgressBarIndeterminateVisibility(false);
     }
 
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_view, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if(id == R.id.home){
+            finish();
+            return true;
+        }
+        if (id == R.id.action_sharing) {
+            new MaterialDialog.Builder(this)
+                    .title("yo SI participo")
+                    .content("Escribe un mensaje para compartir")
+                    .inputType(InputType.TYPE_CLASS_TEXT |
+                            InputType.TYPE_TEXT_VARIATION_PERSON_NAME |
+                            InputType.TYPE_TEXT_FLAG_CAP_WORDS)
+                    .inputMaxLength(50)
+                    .positiveText("Compartir")
+                    .input("", "", false, new MaterialDialog.InputCallback() {
+                        @Override
+                        public void onInput(MaterialDialog dialog, CharSequence input) {
+                            Intent sendIntent = new Intent();
+                            sendIntent.setAction(Intent.ACTION_SEND);
+                            sendIntent.putExtra(Intent.EXTRA_TEXT, input.toString());
+                            sendIntent.setType("text/plain");
+                            startActivity(sendIntent);
+                        }
+                    }).show();
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
 
 
 }

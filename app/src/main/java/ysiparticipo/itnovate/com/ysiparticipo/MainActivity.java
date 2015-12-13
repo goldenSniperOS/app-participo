@@ -26,20 +26,17 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+
+import ysiparticipo.itnovate.com.ysiparticipo.Adapters.MainAdapter;
+
 public class MainActivity extends AppCompatActivity {
     BackendlessUser current;
-    private String[] categorias = new String[]{
-        "ARTE",
-        "CINE",
-        "CONCIERTOS",
-        "ESPACIOS PÚBLICOS",
-        "PLAN LECTOR",
-        "TEATRO",
-    };
+    private ArrayList<MainData> ListaCategoria = new ArrayList<>();
     private String[] internalCategorias = new String[]{
         "ARTE",
         "CINE",
-        "CONCIERTOS",
+        "CONCIERTO",
         "ESPACIOS-PUBLICOS",
         "PLAN-LECTOR",
         "TEATRO",
@@ -51,6 +48,12 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         volley = VolleyS.getInstance(this);
+        ListaCategoria.add(new MainData("ARTE",R.drawable.ic_it_rojo_lg));
+        ListaCategoria.add(new MainData("CINE",R.drawable.ic_it_rojo_lg));
+        ListaCategoria.add(new MainData("CONCIERTO",R.drawable.ic_it_rojo_lg));
+        ListaCategoria.add(new MainData("ESPACIO PÚBLICOS",R.drawable.ic_it_rojo_lg));
+        ListaCategoria.add(new MainData("PLAN LECTOR",R.drawable.ic_it_rojo_lg));
+        ListaCategoria.add(new MainData("TEATRO",R.drawable.ic_it_rojo_lg));
         fRequestQueue = volley.getRequestQueue();
         setContentView(R.layout.activity_main);
         current = Backendless.UserService.CurrentUser();
@@ -60,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
         StrictMode.setThreadPolicy(policy);
         String appVersion = "v1";
         Backendless.initApp(this, "F89F55EE-64AD-32BF-FFE1-96C258DA8800", "C7F9D9B6-6A7E-6FCF-FF7E-B1D7272E9900", appVersion);
-        ArrayAdapter arrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1,categorias);
+        ArrayAdapter arrayAdapter = new MainAdapter(this, R.layout.layout_main_item,ListaCategoria);
         ListView listView = (ListView) findViewById(R.id.listaCategorias);
         listView.setAdapter(arrayAdapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {

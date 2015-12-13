@@ -36,5 +36,6 @@
     <string name="title_activity_main2">Main2Activity</string>
     <string name="section_format">Hello World from section: %1$d</string>
     <string name="title_activity_event_details">EventDetailsActivity</string>
-
+    <string name="app_id">1031167753572778</string>
+    <string name="action_sharing">Compartir</string>
 </resources>

@@ -1,0 +1,2 @@
+configurations.create("default")
+artifacts.add("default", file('simple.facebook-2.2.jar'))

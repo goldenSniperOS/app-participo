@@ -3,7 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="ysiparticipo.itnovate.com.ysiparticipo.CategoriaActivity"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="#e5e5e5">
 
     <ListView
         android:layout_width="match_parent"

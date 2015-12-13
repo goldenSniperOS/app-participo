@@ -10,8 +10,9 @@ import android.widget.Toast;
 import com.backendless.Backendless;
 import com.backendless.BackendlessUser;
 
-public class WelcomeActivity extends AppCompatActivity {
+import java.util.List;
 
+public class WelcomeActivity extends AppCompatActivity {
     BackendlessUser current;
 
     @Override
@@ -19,8 +20,13 @@ public class WelcomeActivity extends AppCompatActivity {
         ImageView educacion_cultura =(ImageView)findViewById(R.id.educacion_cultura);
         current = Backendless.UserService.CurrentUser();
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_welcome);
+    }
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
     }
 
     public void abrirActivity(View view){
