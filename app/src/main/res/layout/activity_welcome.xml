@@ -8,7 +8,8 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="ysiparticipo.itnovate.com.ysiparticipo.WelcomeActivity"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@android:color/white">
 
     <LinearLayout
         android:orientation="horizontal"
@@ -16,35 +17,21 @@
         android:layout_height="0dp"
         android:layout_weight="1">
 
-        <LinearLayout
-            android:orientation="horizontal"
+        <ImageView
             android:layout_width="0dp"
             android:layout_height="fill_parent"
+            android:id="@+id/imageView8"
             android:layout_weight="2"
-            android:layout_marginRight="20dp">
-
-            <ImageView
-                android:layout_width="0dp"
-                android:layout_height="fill_parent"
-                android:id="@+id/fotoPerfil"
-                android:layout_weight="1"
-                android:layout_marginRight="10dp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="Large Text"
-                android:id="@+id/nombrePerfil"
-                android:textSize="20dp" />
-        </LinearLayout>
+            android:src="@drawable/logo"
+            android:layout_marginRight="20dp" />
 
         <ImageView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:id="@+id/imageView"
+            android:id="@+id/educacion_cultura"
             android:src="@drawable/educacioncultura"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:onClick="abrirActivity" />
 
     </LinearLayout>
 
@@ -73,7 +60,7 @@
 
     <LinearLayout
         android:orientation="horizontal"
-        android:layout_width="match_parent"
+        android:layout_width="fill_parent"
         android:layout_height="0dp"
         android:layout_weight="1">
 
@@ -101,15 +88,15 @@
 
         <ImageView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="fill_parent"
             android:id="@+id/imageView7"
             android:src="@drawable/obras"
             android:layout_weight="1"
             android:layout_marginRight="20dp" />
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
             android:id="@+id/imageView4"
             android:src="@drawable/administracionfinanzasylogistica"
             android:layout_weight="2" />
