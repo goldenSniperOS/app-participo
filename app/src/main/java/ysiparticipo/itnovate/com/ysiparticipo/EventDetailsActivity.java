@@ -65,18 +65,21 @@ public class EventDetailsActivity extends AppCompatActivity {
     BackendlessUser current;
     private Integer item;
     Bitmap bitmap;
+    private Event currentEvent;
+    private double latitud;
+    private double longitud;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Intent intent = getIntent();
         volley = VolleyS.getInstance(this);
         fRequestQueue = volley.getRequestQueue();
         current = Backendless.UserService.CurrentUser();
         if(current == null){
             finish();
         }
+        Intent intent = getIntent();
         item = intent.getIntExtra("item",1);
         setContentView(R.layout.activity_event_details);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -95,16 +98,18 @@ public class EventDetailsActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(JSONObject response) {
                         try {
-                           toolbar.setTitle(response.getString("CATEGORIA"));
+                            toolbar.setTitle(response.getString("CATEGORIA"));
                             TextView EVENTO = (TextView) findViewById(R.id.textView);
                             EVENTO.setText(response.getString("EVENTO"));
                             TextView lugar = (TextView) findViewById(R.id.textView4);
                             lugar.setText(response.getString("LUGAR"));
                             TextView hora = (TextView) findViewById(R.id.textView3);
                             hora.setText(response.getString("FECHA") + " / " + response.getString("HORA"));
+                            latitud = response.getDouble("Latitud");
+                            longitud = response.getDouble("Longitud");
                             ImageView map = (ImageView) findViewById(R.id.imageView2);
                             Picasso.with(EventDetailsActivity.this)
-                                    .load("https://maps.googleapis.com/maps/api/staticmap?center=" + response.getDouble("Latitud") + "," + response.getDouble("Longitud") + "&zoom=17&size=600x200&maptype=roadmap\n" +
+                                    .load("https://maps.googleapis.com/maps/api/staticmap?center=" + response.getDouble("Latitud") + "," + response.getDouble("Longitud") + "&zoom=17&size=600x200&maptype=roadmap" +
                                             "&markers=color:red%7Clabel:C%7C" + response.getDouble("Latitud") + "," + response.getDouble("Longitud") +
                                             "&key=AIzaSyDQ7U4smLTUnkZ3QMoclnGO58DyF23A2fQ")
                                     .into(map);
@@ -168,6 +173,7 @@ public class EventDetailsActivity extends AppCompatActivity {
                                             mRequestParams.put("categoria","CULTURA");
                                             mRequestParams.put("foto", url);
                                             JSONObject obj = new JSONObject();
+
                                             try {
                                                 obj.put("id_usuario", current.getEmail());
                                                 obj.put("nombre",current.getProperty("name").toString());
@@ -184,7 +190,11 @@ public class EventDetailsActivity extends AppCompatActivity {
                                                     new Response.Listener<JSONObject>() {
                                                         @Override
                                                         public void onResponse(JSONObject response) {
-                                                            Toast.makeText(getApplication(),"url: "+response,Toast.LENGTH_LONG).show();
+                                                            try {
+                                                                Toast.makeText(getApplication(),"url: "+response.getString("resultado"),Toast.LENGTH_LONG).show();
+                                                            } catch (JSONException e) {
+                                                                e.printStackTrace();
+                                                            }
                                                         }
                                                     }, new Response.ErrorListener() {
                                                 @Override
@@ -242,7 +252,12 @@ public class EventDetailsActivity extends AppCompatActivity {
         this.setProgressBarIndeterminateVisibility(false);
     }
 
-
+    public void abrirMapa(View view){
+        Intent intent = new Intent(EventDetailsActivity.this,MapsActivity.class);
+        intent.putExtra("latitud",latitud);
+        intent.putExtra("longitud", longitud);
+        startActivity(intent);;
+    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.

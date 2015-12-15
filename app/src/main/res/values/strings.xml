@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">ySIparticipo?</string>
+    <string name="app_name">Cultura</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -38,4 +38,5 @@
     <string name="title_activity_event_details">EventDetailsActivity</string>
     <string name="app_id">1031167753572778</string>
     <string name="action_sharing">Compartir</string>
+    <string name="title_activity_maps">Map</string>
 </resources>

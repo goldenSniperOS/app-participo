@@ -63,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
         StrictMode.setThreadPolicy(policy);
         String appVersion = "v1";
         Backendless.initApp(this, "F89F55EE-64AD-32BF-FFE1-96C258DA8800", "C7F9D9B6-6A7E-6FCF-FF7E-B1D7272E9900", appVersion);
-        ArrayAdapter arrayAdapter = new MainAdapter(this, R.layout.layout_main_item,ListaCategoria);
+        MainAdapter arrayAdapter = new MainAdapter(this, R.layout.layout_main_item,ListaCategoria);
         ListView listView = (ListView) findViewById(R.id.listaCategorias);
         listView.setAdapter(arrayAdapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -73,14 +73,6 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent = new Intent(MainActivity.this, CategoriaActivity.class);
                 intent.putExtra("categoria",cat);
                 startActivity(intent);
-            }
-        });
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
             }
         });
     }
@@ -107,25 +99,5 @@ public class MainActivity extends AppCompatActivity {
         this.setProgressBarIndeterminateVisibility(false);
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
 }
